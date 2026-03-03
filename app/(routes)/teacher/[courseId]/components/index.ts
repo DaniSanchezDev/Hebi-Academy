@@ -1,0 +1,6 @@
+export * from './HeaderCourse'
+export * from './CourseForm'
+export * from './Title'
+export * from './CourseImage'
+export * from './CoursePrice'
+export * from './Chapters'
