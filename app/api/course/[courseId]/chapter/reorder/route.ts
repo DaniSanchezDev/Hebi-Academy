@@ -4,13 +4,13 @@ import { NextResponse } from "next/server";
 
 export async function PUT(
   req: Request,
-  { params }: { params: { courseId: string } }
+  context: { params: Promise<{ courseId: string }> },
 ) {
   try {
     // Verificar autenticación
     const { userId } = await auth();
-    const { courseId } = params;
-    
+    const { courseId } = await context.params;
+
     // Obtener la lista de capítulos a actualizar
     const { list } = await req.json();
 
@@ -45,15 +45,14 @@ export async function PUT(
 
     // Devolver éxito
     return NextResponse.json({ success: true });
-    
   } catch (error) {
     // Registrar el error en la consola
     console.error("Error updating chapters:", error);
-    
+
     // Devolver error al cliente
     return NextResponse.json(
-      { error: "Failed to update chapters. Please try again later." }, 
-      { status: 500 }
+      { error: "Failed to update chapters. Please try again later." },
+      { status: 500 },
     );
   }
 }
