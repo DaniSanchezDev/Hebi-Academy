@@ -22,7 +22,6 @@ const nextConfig: NextConfig = {
   compress: true,
   poweredByHeader: false,
   productionBrowserSourceMaps: false,
-  swcMinify: true,
   experimental: {
     optimizePackageImports: ["@radix-ui/react-dialog", "lucide-react"],
   },
