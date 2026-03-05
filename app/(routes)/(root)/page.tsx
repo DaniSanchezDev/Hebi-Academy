@@ -5,14 +5,15 @@ import { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Hebi Academy",
-  description: "Hebi Academy is an online learning platform focused on teaching web development and technology skills.",
+  description:
+    "Hebi Academy is an online learning platform focused on teaching web development and technology skills.",
 };
 
+export const revalidate = 3600;
 
 export default async function Home() {
-  // Traemos los cursos del actions
   const courses = await getHomeCourses();
-  
+
   return (
     <div>
       <ExploreCourses />

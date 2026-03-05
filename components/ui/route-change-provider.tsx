@@ -1,46 +1,51 @@
-'use client'
+"use client";
 
-import { usePathname, useSearchParams } from 'next/navigation'
-import { createContext, useContext, useEffect, useState, ReactNode } from 'react'
+import { usePathname } from "next/navigation";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  ReactNode,
+} from "react";
 
 type RouteChangeContextType = {
-  isChangingRoute: boolean
-}
+  isChangingRoute: boolean;
+};
 
 const RouteChangeContext = createContext<RouteChangeContextType>({
-  isChangingRoute: false
-})
+  isChangingRoute: false,
+});
 
-export const useRouteChange = () => useContext(RouteChangeContext)
+export const useRouteChange = () => useContext(RouteChangeContext);
 
 export function RouteChangeProvider({ children }: { children: ReactNode }) {
-  const pathname = usePathname()
-  const searchParams = useSearchParams()
-  const [isChangingRoute, setIsChangingRoute] = useState(false)
+  const pathname = usePathname();
+  const [isChangingRoute, setIsChangingRoute] = useState(false);
 
   useEffect(() => {
     const handleStart = () => {
-      setIsChangingRoute(true)
-    }
+      setIsChangingRoute(true);
+    };
 
     const handleComplete = () => {
       setTimeout(() => {
-        setIsChangingRoute(false)
-      }, 300)
-    }
+        setIsChangingRoute(false);
+      }, 300);
+    };
 
-    window.addEventListener('routeChangeStart', handleStart)
-    window.addEventListener('routeChangeComplete', handleComplete)
+    window.addEventListener("routeChangeStart", handleStart);
+    window.addEventListener("routeChangeComplete", handleComplete);
 
     return () => {
-      window.removeEventListener('routeChangeStart', handleStart)
-      window.removeEventListener('routeChangeComplete', handleComplete)
-    }
-  }, [])
+      window.removeEventListener("routeChangeStart", handleStart);
+      window.removeEventListener("routeChangeComplete", handleComplete);
+    };
+  }, []);
 
   useEffect(() => {
-    setIsChangingRoute(false)
-  }, [pathname, searchParams])
+    setIsChangingRoute(false);
+  }, [pathname]);
 
   return (
     <RouteChangeContext.Provider value={{ isChangingRoute }}>
@@ -57,5 +62,5 @@ export function RouteChangeProvider({ children }: { children: ReactNode }) {
         </div>
       )}
     </RouteChangeContext.Provider>
-  )
+  );
 }

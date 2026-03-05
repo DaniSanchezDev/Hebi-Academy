@@ -1,42 +1,47 @@
-'use client'
+"use client";
 
-import { usePathname, useSearchParams } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export default function TransitionSpinner() {
-  const pathname = usePathname()
-  const searchParams = useSearchParams()
-  const [isLoading, setIsLoading] = useState(false)
-  
+  const pathname = usePathname();
+  const [isLoading, setIsLoading] = useState(false);
+
   useEffect(() => {
     // Función para iniciar la carga
     const handleRouteChangeStart = () => {
-      setIsLoading(true)
-    }
-    
+      setIsLoading(true);
+    };
+
     // Función para finalizar la carga
     const handleRouteChangeComplete = () => {
-      setIsLoading(false)
-    }
-    
+      setIsLoading(false);
+    };
+
     // Agregar event listeners para los eventos personalizados
-    window.addEventListener('route-transition-start', handleRouteChangeStart)
-    window.addEventListener('route-transition-end', handleRouteChangeComplete)
-    
+    window.addEventListener("route-transition-start", handleRouteChangeStart);
+    window.addEventListener("route-transition-end", handleRouteChangeComplete);
+
     // Cleanup
     return () => {
-      window.removeEventListener('route-transition-start', handleRouteChangeStart)
-      window.removeEventListener('route-transition-end', handleRouteChangeComplete)
-    }
-  }, [])
-  
+      window.removeEventListener(
+        "route-transition-start",
+        handleRouteChangeStart,
+      );
+      window.removeEventListener(
+        "route-transition-end",
+        handleRouteChangeComplete,
+      );
+    };
+  }, []);
+
   // Reiniciar el estado cuando la ruta cambia
   useEffect(() => {
-    setIsLoading(false)
-  }, [pathname, searchParams])
-  
-  if (!isLoading) return null
-  
+    setIsLoading(false);
+  }, [pathname]);
+
+  if (!isLoading) return null;
+
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50 bg-gradient-to-br from-indigo-50/80 to-violet-50/80 backdrop-blur-sm">
       <div className="flex flex-col items-center gap-3 p-6 rounded-xl bg-white/40 shadow-lg border border-indigo-100">
@@ -48,5 +53,5 @@ export default function TransitionSpinner() {
         <p className="text-indigo-600 font-medium mt-2">Cargando...</p>
       </div>
     </div>
-  )
+  );
 }

@@ -1,32 +1,30 @@
-'use client'
+"use client";
 
-import { usePathname, useSearchParams } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export default function NavigationSpinner() {
-  const pathname = usePathname()
-  const searchParams = useSearchParams()
-  const [isNavigating, setIsNavigating] = useState(false)
-  
+  const pathname = usePathname();
+  const [isNavigating, setIsNavigating] = useState(false);
+
   useEffect(() => {
     const handleRouteChangeStart = () => {
-      setIsNavigating(true)
-    }
-    
-    
-    window.addEventListener('beforeunload', handleRouteChangeStart)
-    
+      setIsNavigating(true);
+    };
+
+    window.addEventListener("beforeunload", handleRouteChangeStart);
+
     return () => {
-      window.removeEventListener('beforeunload', handleRouteChangeStart)
-    }
-  }, [])
-  
+      window.removeEventListener("beforeunload", handleRouteChangeStart);
+    };
+  }, []);
+
   useEffect(() => {
-    setIsNavigating(false)
-  }, [pathname, searchParams])
-  
-  if (!isNavigating) return null
-  
+    setIsNavigating(false);
+  }, [pathname]);
+
+  if (!isNavigating) return null;
+
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50 bg-white/60 backdrop-blur-sm">
       <div className="flex flex-col items-center gap-3">
@@ -37,5 +35,5 @@ export default function NavigationSpinner() {
         <p className="text-indigo-600 font-medium mt-2">Cargando...</p>
       </div>
     </div>
-  )
+  );
 }
